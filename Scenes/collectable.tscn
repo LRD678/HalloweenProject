@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=3 uid="uid://cacipmajrjq85"]
+
+[ext_resource type="Script" path="res://Scripts/collectable.gd" id="1_j38i6"]
+[ext_resource type="Texture2D" uid="uid://co3gnt8887ae4" path="res://Assets/Candy.png" id="2_2iubm"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_knqam"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sgd0e"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="Animation" id="Animation_u88sm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_eq11h"]
+resource_name = "Spin"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qjxwr"]
+_data = {
+"RESET": SubResource("Animation_u88sm"),
+"Spin": SubResource("Animation_eq11h")
+}
+
+[node name="Collectable" type="RigidBody2D" groups=["Candy"]]
+position = Vector2(99, 58)
+collision_layer = 2
+collision_mask = 6
+physics_material_override = SubResource("PhysicsMaterial_knqam")
+gravity_scale = 0.1
+continuous_cd = 2
+max_contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+script = ExtResource("1_j38i6")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2iubm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_sgd0e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Spin"
+libraries = {
+"": SubResource("AnimationLibrary_qjxwr")
+}

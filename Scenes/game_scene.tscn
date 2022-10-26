@@ -1,0 +1,103 @@
+[gd_scene load_steps=8 format=3 uid="uid://bdql5cxhullhc"]
+
+[ext_resource type="Script" path="res://Scripts/game_scene.gd" id="1_nbr3f"]
+[ext_resource type="PackedScene" uid="uid://d00td5hufdh5b" path="res://Scenes/player.tscn" id="4_4y051"]
+[ext_resource type="FontFile" uid="uid://c1uprjwpfb0go" path="res://Assets/Kenney Mini Square.ttf" id="4_250ic"]
+[ext_resource type="Texture2D" uid="uid://dluh8n2bd38nr" path="res://Assets/Grass.png" id="5_ud0r3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ujdf"]
+size = Vector2(317, 0.5)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p2p3n"]
+resource_name = "Tileset"
+texture = ExtResource("5_ud0r3")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_uyaxk"]
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 3
+sources/0 = SubResource("TileSetAtlasSource_p2p3n")
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1_nbr3f")
+
+[node name="Backround" type="ColorRect" parent="."]
+custom_minimum_size = Vector2i(320, 176)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 320.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Player" parent="." instance=ExtResource("4_4y051")]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreLabel" type="Label" parent="HUD/UI"]
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 78.0
+offset_bottom = 26.0
+theme_override_fonts/font = ExtResource("4_250ic")
+theme_override_font_sizes/font_size = 0
+text = "0 Candy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="HUD/UI"]
+offset_left = 252.0
+offset_top = 4.0
+offset_right = 316.0
+offset_bottom = 27.0
+theme_override_fonts/font = ExtResource("4_250ic")
+theme_override_font_sizes/font_size = 0
+text = "0 sec"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GroundHitbox" type="Area2D" parent="."]
+position = Vector2(156, 161)
+collision_layer = 8
+collision_mask = 2
+metadata/_edit_group_ = true
+
+[node name="Collision" type="CollisionShape2D" parent="GroundHitbox"]
+position = Vector2(4.5, -0.75)
+shape = SubResource("RectangleShape2D_1ujdf")
+
+[node name="Level" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_uyaxk")
+format = 2
+layer_0/name = "Ground"
+layer_0/tile_data = PackedInt32Array(655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 720895, 65536, 0, 655359, 65536, 0, 589823, 65536, 0, 524287, 65536, 0, 458751, 65536, 0, 393215, 65536, 0, 327679, 65536, 0, 262143, 65536, 0, 196607, 65536, 0, 131071, 65536, 0, 65535, 65536, 0, -1, 65536, 0, -65536, 65536, 0, -65535, 65536, 0, -65534, 65536, 0, -65533, 65536, 0, -65532, 65536, 0, -65531, 65536, 0, -65530, 65536, 0, -65529, 65536, 0, -65528, 65536, 0, -65527, 65536, 0, -65526, 65536, 0, -65525, 65536, 0, -65524, 65536, 0, -65523, 65536, 0, -65522, 65536, 0, -65521, 65536, 0, -65519, 65536, 0, -65520, 65536, 0, -65518, 65536, 0, -65517, 65536, 0, -65516, 65536, 0, 20, 65536, 0, 65556, 65536, 0, 131092, 65536, 0, 196628, 65536, 0, 262164, 65536, 0, 327700, 65536, 0, 393236, 65536, 0, 458772, 65536, 0, 524308, 65536, 0, 589844, 65536, 0, 655380, 65536, 0)
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="GroundHitbox" to="." method="_on_ground_hitbox_body_entered"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
